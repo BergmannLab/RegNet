@@ -3,8 +3,8 @@ This is the source code for the paper:
 Hersch, Lorrain, de Wit, Trevisan, Ljung, Bergmann, Fankhauser (2014), "Light intensity modulates the regulatory network of the shade avoidance response in Arabidopsis", PNAS
 
 Please cite this paper if you use this code for your publications. 
-
-The network output function is computed in C++ using the cvode library from Coeh and Hindmarsh (provided in the src/cvode and include/cvode directories for direct compilation).
+n
+The network output function is computed in C++ using the cvode library from Coen and Hindmarsh (provided in the src/cvode and include/cvode directories for direct compilation).
 
 The GaA-MCMC sampling function is written in matlab by Mueller (code provided in the matlab/GaA/ directory)
 
