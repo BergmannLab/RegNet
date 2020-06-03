@@ -1,0 +1,67 @@
+This is the source code for the paper:
+
+Hersch, Lorrain, de Wit, Trevisan, Ljung, Bergmann, Fankhauser (2014), "Light intensity modulates the regulatory network of the shade avoidance response in Arabidopsis", PNAS
+
+Please cite this paper if you use this code for your publications. 
+
+The network output function is computed in C++ using the cvode library from Coeh and Hindmarsh (provided in the src/cvode and include/cvode directories for direct compilation).
+
+The GaA-MCMC sampling function is written in matlab by Mueller (code provided in the matlab/GaA/ directory)
+
+The Matrix and Vector classes were originally written by Eric Sauser.
+
+The rest was written by Micha Hersch
+
+This implementation has been developed and tested only on the linux operating system. Part of this code will not run on other systems (in particular socket communication stuff). 
+
+Examples of configuration files for network, experimental data and experimental conditions are given in the exampleFiles directory
+
+
+For a faster and parallel implementation of the sampling, a c++ evaluation server is createdand mex client called from matlab is implemented. The client provides a set of parameters and server computes the network output values. 
+
+
+Network function evaluation
+-----------------------------
+
+The program needs to know the network topology (as described by a network file), what are the network inputs (as described by the experiment file) and a set of parameters (given in log scale). With those three things, it can compute the network outputs corresponding the provided inputs and parameters. 
+
+This is done with the following
+$ make checkres
+$ ./checkres <networkfile> <experimentslist> <parameterfile>
+
+This will read go through each line of the <parameterfile>, set those parameters of the network and write the network output for each input listed in the <experimentslist>. You will end-up with as many lines as in the <parameterfile>, and each line will have as many numbers as the number of experimental conditions. The experimental conditions are described two by two.
+But you have to make sure, each line of the <parameterfile> contains as many numbers as there are parameters in the network. The parameterfile can be in ascii or in binary format (the former is better of debugging, but the latter should be used for large file, it expects the "float" binary format).
+
+
+Parameter estimation
+----------------------
+For parameter training, you need the <networkfile>, the <experimentslist> but also the <targetfile>, which gives the mean and standard deviation of the observed variable corresponding to the network output. Then, for each parameter vector, the program can compute a score, which is the probability of the network output under the distribution of the real experimental data (p(theta) in the paper). 
+
+To make training faster, the program runs a server that waits for queries from the sampling process. The server reads the <networkfile>, the <experimentsfile>
+and the <targetfile>. It then opens a socket and waits for queries. When the sampling process wants to know the p(theta), it sends a query with the parameters (in log scale) through the socket, that the program evaluates how well this parameter vector matched the observed data, and sends it back to the sampling process. See the evalserver.cpp and evalclient.cpp file to see how this is done in details. 
+
+To compile and run the evaluation, do the following:
+make evalserver
+$ ./evalserver <networkfile> <experimentlist> <targetfile> <socketname> 0
+
+<socketname> is the name of the socket where you can send the queries.
+
+Sampling
+-----------
+
+The sampling is done using the Gaussian Adaptation method from Mueller & Sbalzarini. 
+The script that call this method is:
+
+matlab/testGaA_paral.m 
+
+It uses two mex functions (c-code called from matlab):
+1. getDimension: gets the number of parameters in the network from the evaluation sever
+ 
+2. requestEval: sends a parameter vector (in log scale) to the evaluation serverthrough the socket and waits for the answer (the "cost" of the parameter vector). 
+
+Those function can be compiled (if you have the mex compiler) using
+
+$ make getDimension
+$ make requestEval
+
+This file was written April 11, 2014 by Micha Hersch

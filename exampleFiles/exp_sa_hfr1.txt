@@ -1,0 +1,4 @@
+PhyB 10 1
+PhyA 2 1
+HFR1 0 0
+elongation

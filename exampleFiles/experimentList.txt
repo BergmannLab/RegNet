@@ -1,0 +1,7 @@
+exampleFiles/exp_sa_wt.txt
+exampleFiles/exp_sa_pifs.txt
+exampleFiles/exp_sa_hfr1.txt
+exampleFiles/exp_sa_sav3.txt
+exampleFiles/exp_sa_pifssav3.txt
+exampleFiles/exp_sa_hfr1sav3.txt
+exampleFiles/exp_sa_hfr1pifs.txt

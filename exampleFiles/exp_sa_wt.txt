@@ -1,0 +1,3 @@
+PhyB 10 1
+PhyA 2 1
+elongation

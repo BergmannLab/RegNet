@@ -1,0 +1,8 @@
+PhyB -| PIF4/5
+PhyB -| auxin
+PIF4/5 -> HFR1
+HFR1 -| PIF4/5
+TAA1 -> YUCCA
+YUCCA -> auxin
+auxin -> elongation
+PIF4/5 -> YUCCA
