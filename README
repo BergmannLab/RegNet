@@ -26,8 +26,8 @@ Network function evaluation
 The program needs to know the network topology (as described by a network file), what are the network inputs (as described by the experiment file) and a set of parameters (given in log scale). With those three things, it can compute the network outputs corresponding the provided inputs and parameters. 
 
 This is done with the following
-$ make checkres
-$ ./checkres <networkfile> <experimentslist> <parameterfile>
+```make checkres```  
+``` ./checkres <networkfile> <experimentslist> <parameterfile>```
 
 This will read go through each line of the <parameterfile>, set those parameters of the network and write the network output for each input listed in the <experimentslist>. You will end-up with as many lines as in the <parameterfile>, and each line will have as many numbers as the number of experimental conditions. The experimental conditions are described two by two.
 But you have to make sure, each line of the <parameterfile> contains as many numbers as there are parameters in the network. The parameterfile can be in ascii or in binary format (the former is better of debugging, but the latter should be used for large file, it expects the "float" binary format).
